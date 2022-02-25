@@ -15,13 +15,13 @@ public class NetworkManager : MonoBehaviour
     public static NetworkManager instance { get; private set; }
 
     public Action<string> OnMessageReceive;
+    private ServerConnector connector;
 
     private string comm;
-    private string ip;
-    private string port;
-    private string msg;
-    private int clientID = -1;
-    private ServerConnector connector;
+    public TMP_InputField ip;
+    public TMP_InputField port;
+    public TMP_InputField msg;
+    public int clientID = -1;
     public TMP_InputField nickname;
     public TextMeshProUGUI connection;
     public TextMeshProUGUI response;
@@ -45,6 +45,7 @@ public class NetworkManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(this);
         }
         else
         {
@@ -53,7 +54,7 @@ public class NetworkManager : MonoBehaviour
     }
     private void Update()
     {
-        if(updateUI)
+        if (updateUI)
         {
             response.ForceMeshUpdate();
             updateUI = false;
@@ -65,7 +66,17 @@ public class NetworkManager : MonoBehaviour
         {
             return;
         }
-        string url = "http://" + ip + ":" + port;
+        string url;
+        if (port.text == "")
+        {
+            url = "http://" + ip.text + ":30502" ;
+            Debug.Log(url);
+        }
+        else
+        {
+            url = "http://" + ip.text + ":" + port.text;
+            Debug.Log(url + "typed");
+        }
         connector = new ServerConnector();
         connector.OnMessageReceived += updateMessageField;
 
@@ -75,13 +86,22 @@ public class NetworkManager : MonoBehaviour
         await StartConnectionAsync();
         if (!connected)
         {
+            UIManager.instance.ErrorMessage("Couldnt connect");
             Debug.LogError("Couldnt connect");
             return;
         }
+        UIManager.instance.ConnectionSuccess();
+        //clientID = proxy.Invoke<int>("userConnected", nickname.text).Result;
+        //proxy.On<string>("receiveMessage", (message) => updateMessageField(message));
+        //connection.text = "Connected to: " + ip + ":" + port;
+        //IDtext.text = "Connection ID: " + clientID;
+    }
+    public void Login()
+    {
         clientID = proxy.Invoke<int>("userConnected", nickname.text).Result;
         proxy.On<string>("receiveMessage", (message) => updateMessageField(message));
-        connection.text = "Connected to: " + ip + ":" + port;
-        IDtext.text = "Connection ID: " + clientID;
+
+        LevelLoading.instance.LoadLevel(1);
     }
     private async Task StartConnectionAsync()
     {
@@ -150,17 +170,17 @@ public class NetworkManager : MonoBehaviour
     }
     public void changeIP(string _ip)
     {
-        ip = _ip;
+        //ip = _ip;
     }
     public void changePort(string _port)
     {
-        port = _port;
+        //port = _port;
     }
     public void changeMsg(string _msg)
     {
         if (!connected)
             return;
-        msg = _msg;
+        //msg = _msg;
     }
     private void updateMessageField(string message)
     {
