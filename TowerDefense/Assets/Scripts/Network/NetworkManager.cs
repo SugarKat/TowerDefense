@@ -98,6 +98,10 @@ public class NetworkManager : MonoBehaviour
     }
     public void Login()
     {
+        if(proxy == null)
+        {
+            return;
+        }
         clientID = proxy.Invoke<int>("userConnected", nickname.text).Result;
         proxy.On<string>("receiveMessage", (message) => updateMessageField(message));
 
