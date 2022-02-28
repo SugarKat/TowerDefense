@@ -86,11 +86,11 @@ public class NetworkManager : MonoBehaviour
         await StartConnectionAsync();
         if (!connected)
         {
-            UIManager.instance.ErrorMessage("Couldnt connect");
+            MainMenuManager.instance.ErrorMessage("Couldnt connect");
             Debug.LogError("Couldnt connect");
             return;
         }
-        UIManager.instance.ConnectionSuccess();
+        MainMenuManager.instance.ConnectionSuccess();
         //clientID = proxy.Invoke<int>("userConnected", nickname.text).Result;
         //proxy.On<string>("receiveMessage", (message) => updateMessageField(message));
         //connection.text = "Connected to: " + ip + ":" + port;

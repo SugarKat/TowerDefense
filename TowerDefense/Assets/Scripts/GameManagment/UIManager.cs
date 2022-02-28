@@ -5,30 +5,30 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject connectionToServer;
-    public GameObject serverToServer;
-    public TextMeshProUGUI message;
+    public TextMeshProUGUI livesTxt;
+    public TextMeshProUGUI moneyTxt;
+    public Animation towerPanel;
+    public GameObject closeButton;
+    public GameObject openButton;
 
-    public static UIManager instance;
-
-    private void Awake()
+    public void UpdateLives(int ammount)
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+        livesTxt.text = $"Lives: {ammount}";
     }
-    public void ConnectionSuccess()
+    public void UpdateMoney(int ammount)
     {
-        connectionToServer.SetActive(false);
-        serverToServer.SetActive(true);
+        moneyTxt.text = $"Money: {ammount}";
     }
-    public void ErrorMessage(string msg)
+    public void OpenTowerPanel()
     {
-        message.text = msg;
+        openButton.SetActive(false);
+        closeButton.SetActive(true);
+        towerPanel.Play("TowerPanelOpening");
+    }
+    public void CloseTowerPanel()
+    {
+        openButton.SetActive(true);
+        closeButton.SetActive(false);
+        towerPanel.Play("TowerPanelClosing");
     }
 }

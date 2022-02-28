@@ -13,5 +13,4 @@ public class TileManager : MonoBehaviour
             Instantiate(building.model, tile.model.transform, false);
         }
     }
-
 }
