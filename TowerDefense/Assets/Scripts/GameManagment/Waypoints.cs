@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Waypoints : MonoBehaviour
 {
+    public bool showGizmos = false;
+
     public static Waypoints instance;
 
     public Transform[] waypoints;
@@ -26,6 +28,10 @@ public class Waypoints : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if(!showGizmos)
+        {
+            return;
+        }
         foreach(Transform t in transform)
         {
             Gizmos.color = Color.red;

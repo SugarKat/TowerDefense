@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-
-    [SerializeField] public Waypoints waypoints;
+    Waypoints waypoints;
 
     [SerializeField] public float moveSpeed = 1f;
 
     [SerializeField] public float radius = 0.4f;
 
-    private int currentWaypoint = 0;
+    private int nextWaypoint = 0;
     private Transform target;
 
+    private void Awake()
+    {
+    }
     // Start is called before the first frame update
     void Start()
     {
-        // Get next waypoint
-        target = waypoints.GetNextWaypoint(currentWaypoint);
+        waypoints = Waypoints.instance;        
+        target = waypoints.GetNextWaypoint(nextWaypoint);
+        nextWaypoint++;
         transform.LookAt(target);
     }
 
@@ -33,9 +36,9 @@ public class EnemyMovement : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
             if (Vector3.Distance(transform.position, target.position) < radius)
             {
-                target = waypoints.GetNextWaypoint(currentWaypoint);
+                target = waypoints.GetNextWaypoint(nextWaypoint);
 
-                currentWaypoint++;
+                nextWaypoint++;
             }
         }
         else
