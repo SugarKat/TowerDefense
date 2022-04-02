@@ -4,43 +4,52 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public bool buildable;
-    public GameObject model;
-    public Building building;
+    public bool canBuild;
+    public GameObject building;
 
     private Color baseColor;
+    private Renderer ren;
 
     public void Start()
     {
-        if (!buildable)
-        {
-            Color uneditableColor = new Color(GetComponent<Renderer>().material.color.r - 0.1f, GetComponent<Renderer>().material.color.g - 0.1f, GetComponent<Renderer>().material.color.b - 0.1f);
-            GetComponent<Renderer>().material.color = uneditableColor;
-            baseColor = uneditableColor;
-        }
+        ren = GetComponent<Renderer>();
+        baseColor = ren.material.color;
     }
 
     public void OnMouseEnter()
     {
-        baseColor = GetComponent<Renderer>().material.color;
-        if (buildable)
+        canBuild = BuildingManager.Instance.CanBudid;
+        if (canBuild)
         {
-            GetComponent<Renderer>().material.color = Color.green;
+            ren.material.color = Color.green;
         }
         else
         {
-            GetComponent<Renderer>().material.color = Color.red;
+            ren.material.color = Color.red;
         }
     }
 
     public void OnMouseExit()
     {
-        GetComponent<Renderer>().material.color = baseColor;
+        ren.material.color = baseColor;
     }
 
     public void OnMouseDown()
     {
-        model.transform.parent.GetComponent<TileManager>().Build(this, model.transform.parent.GetComponent<TileManager>().availableBuildings[0]);
+        if (canBuild)
+        {
+            BuildingManager.Instance.Build(this);
+        }
     }
-
+    public void InstantiateBuilding(Building _building)
+    {
+        if (building != null)
+        {
+            return;
+        }
+        else
+        {
+            building = (GameObject)Instantiate(_building.model, new Vector3(transform.position.x, 0f, transform.position.z), Quaternion.identity);
+        }
+    }
 }

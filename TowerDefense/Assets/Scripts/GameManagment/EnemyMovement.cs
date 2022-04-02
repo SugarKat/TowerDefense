@@ -11,31 +11,36 @@ public class EnemyMovement : MonoBehaviour
 
     [SerializeField] public float radius = 0.4f;
 
-    private Transform currentWaypoint;
+    private int currentWaypoint = 0;
+    private Transform target;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Move enemy to spawn tile;
-        currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
-        transform.position = currentWaypoint.position;
-
         // Get next waypoint
-        currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
-        transform.LookAt(currentWaypoint);
+        target = waypoints.GetNextWaypoint(currentWaypoint);
+        transform.LookAt(target);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(currentWaypoint != null)
+        if (target != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, moveSpeed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, currentWaypoint.position) < radius)
+            transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+            Vector3 dir = target.position - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
+            if (Vector3.Distance(transform.position, target.position) < radius)
             {
-                currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
-                transform.LookAt(currentWaypoint);
+                target = waypoints.GetNextWaypoint(currentWaypoint);
+
+                currentWaypoint++;
             }
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

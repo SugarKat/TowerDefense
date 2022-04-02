@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class Waypoints : MonoBehaviour
 {
+    public static Waypoints instance;
+
+    public Transform[] waypoints;
+
     [SerializeField] private GameObject enemySpawn;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
-        for (int i = 0; i < 1; i++)
+        waypoints = new Transform[transform.childCount];
+        for (int i = 0; i < waypoints.Length; i++)
         {
-            Spawn();
+            waypoints[i] = transform.GetChild(i);
         }
     }
 
@@ -29,26 +38,13 @@ public class Waypoints : MonoBehaviour
         }
     }
 
-    public Transform GetNextWaypoint(Transform currentWaypoint)
+    public Transform GetNextWaypoint(int currentWaypoint)
     {
-        if (currentWaypoint == null)
-        {
-            return transform.GetChild(0);
-        }
-
-        if (currentWaypoint.GetSiblingIndex() < transform.childCount - 1)
-        {
-            return transform.GetChild(currentWaypoint.GetSiblingIndex() + 1);
-        }
-        else
+        if(currentWaypoint >= waypoints.Length)
         {
             return null;
         }
+        return waypoints[currentWaypoint];
     }
-    public void Spawn()
-    {
-        GameObject newObject = Instantiate(enemySpawn) as GameObject;
-        newObject.GetComponent<EnemyMovement>().waypoints = this;
-        newObject.GetComponent<EnemyMovement>().moveSpeed = 2f;
-    }
+    
 }

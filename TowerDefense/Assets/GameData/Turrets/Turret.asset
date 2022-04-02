@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4afba7922f39a8f43af9231f756eb9b8, type: 3}
   m_Name: Turret
   m_EditorClassIdentifier: 
-  name: 
-  model: {fileID: 0}
-  health: 0
+  name: Single Barrel Turret
+  model: {fileID: 7823946840658956549, guid: a8921ec636169bc4bb0e2bbcab5a4193, type: 3}
