@@ -7,8 +7,8 @@ public class PlayerStats : MonoBehaviour
     public int startingMoney = 200;
     public int startingHealth = 100;
 
-    private int currentMoney;
-    private int currentHealth;
+    public int currentMoney;
+    public int currentHealth;
 
     public bool HasEnoughMoney(int cost) { return currentMoney >= cost; }
     public static PlayerStats Instance { get; private set; }
@@ -35,5 +35,10 @@ public class PlayerStats : MonoBehaviour
         {
             Debug.Log("TODO: Death condition. ");
         }
+    }
+
+    public void AddMoney(int amount)
+    {
+        currentMoney = currentMoney + amount;
     }
 }

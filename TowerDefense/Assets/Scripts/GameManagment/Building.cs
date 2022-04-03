@@ -7,5 +7,6 @@ public class Building : ScriptableObject
 {
     public new string name;
     public int price;
+    public int sellValue;
     public GameObject model;
 }

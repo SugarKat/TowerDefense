@@ -8,8 +8,12 @@ public class BuildingManager : MonoBehaviour
 
     private Building selectedBuilding;
 
-    public bool CanBudid { get { return selectedBuilding != null ? PlayerStats.Instance.HasEnoughMoney(selectedBuilding.price) : false; } }
+    public List<GameObject> placedBuildings;
+
+    public bool CanBuild { get { return selectedBuilding != null ? PlayerStats.Instance.HasEnoughMoney(selectedBuilding.price) : false; } }
     public static BuildingManager Instance { get; private set; }
+
+    public bool sellMode = false;
 
     private void Awake()
     {
@@ -23,20 +27,81 @@ public class BuildingManager : MonoBehaviour
     }
     public void Build(Tile tile)
     {
-        if (selectedBuilding == null)
+        if (sellMode)
         {
+            DestroyClosestBuilding(tile);
             return;
         }
-        tile.InstantiateBuilding(selectedBuilding);
+        if (selectedBuilding == null)
+        {
+            UIManager.Instance.ShowMessage("No Building Selected!");
+            return;
+        }
+        if (PlayerStats.Instance.HasEnoughMoney(selectedBuilding.price))
+        {
+            PlayerStats.Instance.currentMoney -= selectedBuilding.price;
+            UIManager.Instance.UpdateUI();
+            tile.InstantiateBuilding(selectedBuilding);
+        }
+        else
+        {
+            UIManager.Instance.ShowMessage("Not Enough Money!");
+        }
     }
+
+    public void AddToList(GameObject obj)
+    {
+        placedBuildings.Add(obj);
+    }
+
+    public void RemoveFromList(GameObject obj)
+    {
+        placedBuildings.Remove(obj);
+    }
+
+    public void DestroyClosestBuilding(Tile tile)
+    {
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        foreach(GameObject obj in placedBuildings)
+        {
+            if(Vector3.Distance(tile.gameObject.transform.position, obj.transform.position) < distance)
+            {
+                closest = obj;
+                distance = Vector3.Distance(tile.gameObject.transform.position, obj.transform.position);
+            }
+        }
+        if(closest != null)
+        {
+            RemoveFromList(closest);
+            Destroy(closest);
+        }
+    }
+
+    public void ChangeSellMode()
+    {
+        if (sellMode == true)
+        {
+            sellMode = false;
+            UIManager.Instance.ShowMessage("Sell Mode Disabled.");
+        }
+        else
+        {
+            sellMode = true;
+            UIManager.Instance.ShowMessage("Sell Mode Enabled.");
+        }
+    }
+
+
     public void SelectBuilding(int id)
     {
         if (id >= availableBuildings.buildings.Length)
         {
-            Debug.LogError("Wrong building ID. Check selection");
+            UIManager.Instance.ShowMessage("No Building Selected!");
             selectedBuilding = null;
             return;
         }
         selectedBuilding = availableBuildings.buildings[id];
+        UIManager.Instance.ShowMessage("Selected " + selectedBuilding.name);
     }
 }

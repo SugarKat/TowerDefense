@@ -11,6 +11,9 @@ public class EnemyMovement : MonoBehaviour
 
     [SerializeField] public float radius = 0.4f;
 
+    [SerializeField] public int money = 20;
+
+    public float health = 100;
     private int currentWaypoint = 0;
     private Transform target;
 
@@ -21,6 +24,16 @@ public class EnemyMovement : MonoBehaviour
         target = waypoints.GetNextWaypoint(currentWaypoint);
         transform.LookAt(target);
     }
+
+    public void TakeDamage(float dmg)
+    {
+        health = health - dmg;
+        if(health < 0)
+        {
+            Kill();
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -40,8 +53,24 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Despawn();
         }
+    }
+
+    void Kill()
+    {
+        EnemySpawner.Instance.RemoveEnemy(this.gameObject);
+        PlayerStats.Instance.AddMoney(money);
+        RoundManager.Instance.EnemyDespawned();
+        Destroy(this.gameObject);
+    }
+
+    void Despawn()
+    {
+        EnemySpawner.Instance.RemoveEnemy(this.gameObject);
+        PlayerStats.Instance.TakeDamage(1);
+        RoundManager.Instance.EnemyDespawned();
+        Destroy(this.gameObject);
     }
 
 }

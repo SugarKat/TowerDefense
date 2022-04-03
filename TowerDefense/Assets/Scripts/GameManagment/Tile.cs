@@ -18,7 +18,7 @@ public class Tile : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        canBuild = BuildingManager.Instance.CanBudid;
+        //canBuild = BuildingManager.Instance.CanBudid;
         if (canBuild)
         {
             ren.material.color = Color.green;
@@ -40,6 +40,10 @@ public class Tile : MonoBehaviour
         {
             BuildingManager.Instance.Build(this);
         }
+        else
+        {
+            UIManager.Instance.ShowMessage("Cant Build on this tile.");
+        }
     }
     public void InstantiateBuilding(Building _building)
     {
@@ -50,6 +54,7 @@ public class Tile : MonoBehaviour
         else
         {
             building = (GameObject)Instantiate(_building.model, new Vector3(transform.position.x, 0f, transform.position.z), Quaternion.identity);
+            BuildingManager.Instance.AddToList(building);
         }
     }
 }

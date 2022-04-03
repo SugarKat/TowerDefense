@@ -10,6 +10,8 @@ public class Waypoints : MonoBehaviour
 
     [SerializeField] private GameObject enemySpawn;
 
+    public GameObject enemy;
+
     private void Awake()
     {
         instance = this;

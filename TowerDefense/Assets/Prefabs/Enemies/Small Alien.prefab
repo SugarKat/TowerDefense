@@ -95,6 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3516251806961008042}
   - component: {fileID: 3983017285580791438}
+  - component: {fileID: 3206970692477072322}
   m_Layer: 0
   m_Name: Small Alien
   m_TagString: Untagged
@@ -138,6 +139,21 @@ MonoBehaviour:
   waypoints: {fileID: 0}
   moveSpeed: 0.6
   radius: 0.05
+  health: 100
+--- !u!136 &3206970692477072322
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4289657547856291600}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!1 &6713763184612912878
 GameObject:
   m_ObjectHideFlags: 0
