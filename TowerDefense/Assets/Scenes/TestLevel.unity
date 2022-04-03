@@ -4339,6 +4339,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 587412081}
+  - component: {fileID: 587412082}
   m_Layer: 0
   m_Name: Waypoints
   m_TagString: Untagged
@@ -4372,6 +4373,21 @@ Transform:
   m_Father: {fileID: 2145497991}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &587412082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587412080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7024d426b7b32e64cbb0133f3690072c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showGizmos: 0
+  waypoints: []
+  enemySpawn: {fileID: 0}
 --- !u!4 &588245305 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4318485642799030249, guid: 492a3f091673d214083452434d26ecab,
@@ -5841,6 +5857,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afed4fda167b0f8429d1650f97280c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startPoint: {fileID: 783328815}
+  wavesInfo: {fileID: 11400000, guid: 022425b66d3dfb343b63a1a329af31cb, type: 2}
 --- !u!1 &720545799
 GameObject:
   m_ObjectHideFlags: 0
@@ -7736,6 +7754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7024d426b7b32e64cbb0133f3690072c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showGizmos: 0
   waypoints: []
   enemySpawn: {fileID: 0}
 --- !u!4 &951324498 stripped
@@ -14867,10 +14886,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 718914361}
-        m_TargetAssemblyTypeName: BuildingManager, Assembly-CSharp
-        m_MethodName: SelectBuilding
-        m_Mode: 3
+      - m_Target: {fileID: 718914362}
+        m_TargetAssemblyTypeName: WaveSpawner, Assembly-CSharp
+        m_MethodName: StartNextWave
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
