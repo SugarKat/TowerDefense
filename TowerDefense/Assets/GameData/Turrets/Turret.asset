@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Single Barrel Turret
   price: 50
-  sellValue: 0
+  sellValue: 25
   model: {fileID: 7823946840658956549, guid: a8921ec636169bc4bb0e2bbcab5a4193, type: 3}
