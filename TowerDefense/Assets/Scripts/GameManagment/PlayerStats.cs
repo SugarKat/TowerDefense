@@ -40,5 +40,6 @@ public class PlayerStats : MonoBehaviour
     public void AddMoney(int amount)
     {
         currentMoney = currentMoney + amount;
+        UIManager.Instance.UpdateUI();
     }
 }

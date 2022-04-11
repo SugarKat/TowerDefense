@@ -71,15 +71,9 @@ public class BuildingManager : MonoBehaviour
     }
 
 
-    public void SelectBuilding(int id)
-    {
-        if (id >= availableBuildings.buildings.Length)
-        {
-            UIManager.Instance.ShowMessage("No Building Selected!");
-            selectedBuilding = null;
-            return;
-        }
-        selectedBuilding = availableBuildings.buildings[id];
+    public void SelectBuilding(Building selection)
+    {        
+        selectedBuilding = selection;
         UIManager.Instance.ShowMessage("Selected " + selectedBuilding.name);
     }
 }

@@ -41,16 +41,16 @@ public class UIManager : MonoBehaviour
 
     public void UpdateEnemiesLeft()
     {
-        enemyTxt.text = $"Enemies Left: {RoundManager.Instance.enemiesLeft}";
+        enemyTxt.text = $"Enemies Left: {WaveSpawner.instance.AliveEnemies}";        
     }
 
     public void UpdateRoundNR()
     {
-        if(RoundManager.Instance.currentRoundNR < 0)
+        if(WaveSpawner.instance.GetRound < 0)
         {
             roundTxt.text = $"Game Not Started";
         }
-        roundTxt.text = $"Round: {RoundManager.Instance.currentRoundNR + 1}";
+        roundTxt.text = $"Round: {WaveSpawner.instance.GetRound + 1}";
     }
 
     public void OpenTowerPanel()
