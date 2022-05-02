@@ -4,30 +4,31 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
+    public static WaveSpawner instance;
+
     public Transform startPoint;
 
     public WavesInfo wavesInfo;
 
     private int waveN = 0;
     private bool waveSpawning = false;
-<<<<<<< Updated upstream
-=======
-    public List<GameObject> spawnedEntities = new List<GameObject>();
+    public List<GameObject> spawnedEntities = new List<GameObject>(); 
 
     public int AliveEnemies { get { return spawnedEntities.Count; } }
     public int GetRound { get { return waveN; } }
->>>>>>> Stashed changes
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        instance = this;
+    }
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        spawnedEntities = new List<GameObject>();
     }
     public void StartNextWave()
     {
@@ -37,7 +38,7 @@ public class WaveSpawner : MonoBehaviour
         }
         waveSpawning = true;
         StartCoroutine("StartWaveSpawn");
-        
+
     }
     private IEnumerator StartWaveSpawn()
     {
@@ -48,13 +49,13 @@ public class WaveSpawner : MonoBehaviour
             int groupEnemyID = 0;
             for (int j = 0; j < groupSize; j++)
             {
-                    Debug.Log(j);
                 if (wavesInfo.waves[waveN].groups[i].enemies.Length <= 0)
                 {
                     Debug.LogError("No enemies defined");
                     break;
                 }
-                Instantiate(wavesInfo.waves[waveN].groups[i].enemies[groupEnemyID], startPoint.position, startPoint.rotation);
+                spawnedEntities.Add(Instantiate(wavesInfo.waves[waveN].groups[i].enemies[groupEnemyID], startPoint.position, startPoint.rotation));
+                UIManager.Instance.UpdateUI();
                 groupEnemyID++;
                 if (groupEnemyID >= wavesInfo.waves[waveN].groups[i].enemies.Length)
                 {
@@ -67,5 +68,10 @@ public class WaveSpawner : MonoBehaviour
 
         waveSpawning = false;
         waveN++;
+    }
+    public void RemoveEnemy(GameObject obj)
+    {
+        spawnedEntities.Remove(obj);
+        UIManager.Instance.UpdateUI();
     }
 }
