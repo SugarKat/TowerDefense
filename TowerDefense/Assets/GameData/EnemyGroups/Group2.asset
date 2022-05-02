@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveInfo
   enemies:
   - {fileID: 4289657547856291600, guid: b8a07248cb2155e4999a6aecfbb9e1d8, type: 3}
+  - {fileID: 4289657547856291600, guid: b8a07248cb2155e4999a6aecfbb9e1d8, type: 3}
   groupSize: 10
   spawnIntervals: 0.3
   timeTillNextGroup: 3

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class MainMenuManager : MonoBehaviour
+public class ConnectionMenuManager : MonoBehaviour
 {
-    public GameObject connectionToServer;
-    public GameObject serverToServer;
+    public GameObject mainMenu;
+    public GameObject connectionMenu;
+    public GameObject loginMenu;
     public TextMeshProUGUI message;
 
-    public static MainMenuManager instance;
+    public static ConnectionMenuManager instance;
 
     private void Awake()
     {
@@ -24,11 +25,16 @@ public class MainMenuManager : MonoBehaviour
     }
     public void ConnectionSuccess()
     {
-        connectionToServer.SetActive(false);
-        serverToServer.SetActive(true);
+        connectionMenu.SetActive(false);
+        loginMenu.SetActive(true);
     }
     public void ErrorMessage(string msg)
     {
         message.text = msg;
+    }
+    public void ConnectionMenu()
+    {
+        mainMenu.SetActive(false);
+        connectionMenu.SetActive(true);
     }
 }

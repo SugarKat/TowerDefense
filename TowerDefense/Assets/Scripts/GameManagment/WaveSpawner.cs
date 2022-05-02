@@ -10,6 +10,13 @@ public class WaveSpawner : MonoBehaviour
 
     private int waveN = 0;
     private bool waveSpawning = false;
+<<<<<<< Updated upstream
+=======
+    public List<GameObject> spawnedEntities = new List<GameObject>();
+
+    public int AliveEnemies { get { return spawnedEntities.Count; } }
+    public int GetRound { get { return waveN; } }
+>>>>>>> Stashed changes
 
     // Start is called before the first frame update
     void Start()
