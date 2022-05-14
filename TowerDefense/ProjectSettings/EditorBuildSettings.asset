@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ConnectionMenu.unity
     guid: 20e9b3a635f02e548b28b38c723b135f
   - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 2ae7a0775ce705c45b61634286b8b0d1
+  - enabled: 1
     path: Assets/Scenes/TestLevel.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}

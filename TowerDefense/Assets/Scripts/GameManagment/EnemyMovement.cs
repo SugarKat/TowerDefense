@@ -21,7 +21,7 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         // Get next waypoint
-        target = waypoints.GetNextWaypoint(currentWaypoint);
+        target = Waypoints.instance.GetNextWaypoint(currentWaypoint++);
         transform.LookAt(target);
     }
 
@@ -46,7 +46,7 @@ public class EnemyMovement : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
             if (Vector3.Distance(transform.position, target.position) < radius)
             {
-                target = waypoints.GetNextWaypoint(currentWaypoint);
+                target = Waypoints.instance.GetNextWaypoint(currentWaypoint);
 
                 currentWaypoint++;
             }
@@ -59,17 +59,17 @@ public class EnemyMovement : MonoBehaviour
 
     void Kill()
     {
-        EnemySpawner.Instance.RemoveEnemy(this.gameObject);
+        WaveSpawner.instance.RemoveEnemy(this.gameObject);
         PlayerStats.Instance.AddMoney(money);
-        RoundManager.Instance.EnemyDespawned();
+        //RoundManager.Instance.EnemyDespawned();
         Destroy(this.gameObject);
     }
 
     void Despawn()
     {
-        EnemySpawner.Instance.RemoveEnemy(this.gameObject);
+        WaveSpawner.instance.RemoveEnemy(this.gameObject);
         PlayerStats.Instance.TakeDamage(1);
-        RoundManager.Instance.EnemyDespawned();
+        //RoundManager.Instance.EnemyDespawned();
         Destroy(this.gameObject);
     }
 

@@ -37,4 +37,5 @@ public class ConnectionMenuManager : MonoBehaviour
         mainMenu.SetActive(false);
         connectionMenu.SetActive(true);
     }
+    
 }

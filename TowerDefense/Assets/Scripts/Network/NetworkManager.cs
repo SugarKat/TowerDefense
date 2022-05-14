@@ -56,9 +56,14 @@ public class NetworkManager : MonoBehaviour
     {
         if (updateUI)
         {
-            response.ForceMeshUpdate();
+            //response.ForceMeshUpdate();
             updateUI = false;
         }
+    }
+    public void AutoConnect()
+    {
+        ip.text = "192.168.0.146";
+        ConnectToServer();
     }
     public async void ConnectToServer()
     {
@@ -69,7 +74,7 @@ public class NetworkManager : MonoBehaviour
         string url;
         if (port.text == "")
         {
-            url = "http://" + ip.text + ":30502" ;
+            url = "http://" + ip.text + ":30502";
             Debug.Log(url);
         }
         else
@@ -98,7 +103,7 @@ public class NetworkManager : MonoBehaviour
     }
     public void Login()
     {
-        if(proxy == null)
+        if (proxy == null)
         {
             return;
         }
@@ -172,27 +177,12 @@ public class NetworkManager : MonoBehaviour
             return;
         comm = _comm;
     }
-    public void changeIP(string _ip)
-    {
-        //ip = _ip;
-    }
-    public void changePort(string _port)
-    {
-        //port = _port;
-    }
-    public void changeMsg(string _msg)
-    {
-        if (!connected)
-            return;
-        //msg = _msg;
-    }
     private void updateMessageField(string message)
     {
         if (!connected)
             return;
         Debug.Log(message);
-        updateUI = true;
-        response.text = message;
+        CommandInstantiator.instance.AddCommandToList(message);
     }
     public void Disconnect()
     {

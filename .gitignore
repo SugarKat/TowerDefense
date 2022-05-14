@@ -40,5 +40,9 @@ sysinfo.txt
 *.log
 *.log
 TowerDefense/UserSettings/Layouts/default-2021.dwlt
+<<<<<<< Updated upstream
 *.log
 *.log
+=======
+TowerDefense/Logs/shadercompiler-UnityShaderCompiler.exe0.log
+>>>>>>> Stashed changes
