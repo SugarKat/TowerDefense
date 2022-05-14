@@ -29,8 +29,10 @@ public class NetworkManager : MonoBehaviour
     public TMP_InputField nameInput;
     public TMP_InputField message;
 
+    bool host = false;
     bool connected = false;
     bool updateUI = false;
+    int roomConnectionID = -1;
 
     public async Task Start()
     {
@@ -129,6 +131,34 @@ public class NetworkManager : MonoBehaviour
             }
         }).Wait();
     }
+    public void CreateRoom(string roomName)
+    {
+        roomConnectionID = proxy.Invoke<int>("createRoom", roomName, clientID).Result;
+        host = true;
+    }
+    public void ConnectToRoom(string roomID)
+    {
+        host = false;
+    }
+    public void DisconnectFromRoom()
+    {
+        LobbyMenuMangaer.instance.OpenRoomsList();
+        roomConnectionID = -1;
+    }
+    public void DeleteRoom()
+    {
+        if (roomConnectionID == -1)
+        {
+            Debug.LogError("Error occured when this was called, as there either wasnt changed in identification of connected room, or this was called in wrong conditions");
+            return;
+        }
+        if (host)
+        {
+            host = false;
+            proxy.Invoke("deleteRoom", roomConnectionID);
+            DisconnectFromRoom();
+        }
+    }
     public void SendCommand()
     {
         if (!connected)
@@ -183,6 +213,11 @@ public class NetworkManager : MonoBehaviour
             return;
         Debug.Log(message);
         CommandInstantiator.instance.AddCommandToList(message);
+    }
+    public string RefreshRoomsList()
+    {
+        string list = proxy.Invoke<string>("getRoomList").Result;
+        return list;
     }
     public void Disconnect()
     {
