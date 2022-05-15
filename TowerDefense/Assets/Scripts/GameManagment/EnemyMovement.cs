@@ -18,7 +18,9 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         // Get next waypoint
-        target = Waypoints.instance.GetNextWaypoint(currentWaypoint);
+
+        target = Waypoints.instance.GetNextWaypoint(currentWaypoint++);
+
         transform.LookAt(target);
     }
 
@@ -63,8 +65,9 @@ public class EnemyMovement : MonoBehaviour
 
     void Despawn()
     {
-        WaveSpawner.instance.RemoveEnemy(gameObject);
+        WaveSpawner.instance.RemoveEnemy(this.gameObject);
         PlayerStats.Instance.TakeDamage(1);
+
         Destroy(this.gameObject);
     }
 

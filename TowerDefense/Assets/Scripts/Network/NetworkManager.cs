@@ -29,8 +29,14 @@ public class NetworkManager : MonoBehaviour
     public TMP_InputField nameInput;
     public TMP_InputField message;
 
+    [HideInInspector]
+    public string playerName;
+
+    bool host = false;
     bool connected = false;
     bool updateUI = false;
+    bool clientReady = false;
+    int roomConnectionID = -1;
 
     public async Task Start()
     {
@@ -56,9 +62,14 @@ public class NetworkManager : MonoBehaviour
     {
         if (updateUI)
         {
-            response.ForceMeshUpdate();
+            //response.ForceMeshUpdate();
             updateUI = false;
         }
+    }
+    public void AutoConnect()
+    {
+        ip.text = "192.168.0.146";
+        ConnectToServer();
     }
     public async void ConnectToServer()
     {
@@ -69,7 +80,7 @@ public class NetworkManager : MonoBehaviour
         string url;
         if (port.text == "")
         {
-            url = "http://" + ip.text + ":30502" ;
+            url = "http://" + ip.text + ":30502";
             Debug.Log(url);
         }
         else
@@ -86,11 +97,11 @@ public class NetworkManager : MonoBehaviour
         await StartConnectionAsync();
         if (!connected)
         {
-            MainMenuManager.instance.ErrorMessage("Couldnt connect");
+            ConnectionMenuManager.instance.ErrorMessage("Couldnt connect");
             Debug.LogError("Couldnt connect");
             return;
         }
-        MainMenuManager.instance.ConnectionSuccess();
+        ConnectionMenuManager.instance.ConnectionSuccess();
         //clientID = proxy.Invoke<int>("userConnected", nickname.text).Result;
         //proxy.On<string>("receiveMessage", (message) => updateMessageField(message));
         //connection.text = "Connected to: " + ip + ":" + port;
@@ -98,10 +109,11 @@ public class NetworkManager : MonoBehaviour
     }
     public void Login()
     {
-        if(proxy == null)
+        if (proxy == null)
         {
             return;
         }
+        playerName = nickname.text;
         clientID = proxy.Invoke<int>("userConnected", nickname.text).Result;
         proxy.On<string>("receiveMessage", (message) => updateMessageField(message));
 
@@ -123,6 +135,56 @@ public class NetworkManager : MonoBehaviour
                 connected = true;
             }
         }).Wait();
+    }
+    public void StartSignal()
+    {
+        if (host)
+        {
+            Debug.Log("starting game");
+            proxy.Invoke("startGame", "start", roomConnectionID);
+        }
+    }
+    public void CreateRoom(string roomName)
+    {
+        roomConnectionID = proxy.Invoke<int>("createRoom", roomName, clientID).Result;
+        host = true;
+        LobbyMenuMangaer.instance.OpenRoom(String.Format(playerName + ';' + "null"));
+    }
+    public void ConnectToRoom(int roomID)
+    {
+        roomConnectionID = roomID;
+        host = false;
+        string roomInfo = proxy.Invoke<string>("connectToRoom", clientID, roomID).Result;
+        LobbyMenuMangaer.instance.OpenRoom(roomInfo);
+    }
+    public void DisconnectFromRoom()
+    {
+        LobbyMenuMangaer.instance.OpenRoomsList();
+        if (host)
+        {
+            DeleteRoom();
+        }
+        roomConnectionID = -1;
+    }
+    public void DeleteRoom()
+    {
+        if (roomConnectionID == -1)
+        {
+            Debug.LogError("Error occured when this was called, as there either wasnt changed in identification of connected room, or this was called in wrong conditions");
+            return;
+        }
+        host = false;
+        proxy.Invoke("deleteRoom", roomConnectionID);
+    }
+    public string GetRoomInfo()
+    {
+        string info = proxy.Invoke<string>("getRoomInfo", roomConnectionID).Result;
+        return info;
+    }
+    //Sets if client is ready or not
+    public void SetClientState(bool state)
+    {
+        clientReady = state;
     }
     public void SendCommand()
     {
@@ -172,27 +234,17 @@ public class NetworkManager : MonoBehaviour
             return;
         comm = _comm;
     }
-    public void changeIP(string _ip)
-    {
-        //ip = _ip;
-    }
-    public void changePort(string _port)
-    {
-        //port = _port;
-    }
-    public void changeMsg(string _msg)
-    {
-        if (!connected)
-            return;
-        //msg = _msg;
-    }
     private void updateMessageField(string message)
     {
         if (!connected)
             return;
         Debug.Log(message);
-        updateUI = true;
-        response.text = message;
+        CommandInstantiator.instance.AddCommandToList(message);
+    }
+    public string RefreshRoomsList()
+    {
+        string list = proxy.Invoke<string>("getRoomList").Result;
+        return list;
     }
     public void Disconnect()
     {
@@ -203,6 +255,9 @@ public class NetworkManager : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        hubConnection.Stop();
+        if (hubConnection != null)
+        {
+            hubConnection.Stop();
+        }
     }
 }

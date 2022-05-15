@@ -19,11 +19,12 @@ public class PlayerStats : MonoBehaviour
             Destroy(this);
         }
         Instance = this;
+        currentHealth = startingHealth;
+        currentMoney = startingMoney;
     }
     void Start()
     {
-        currentHealth = startingHealth;
-        currentMoney = startingMoney;
+        
     }
     public void TakeDamage(int amount)
     {
