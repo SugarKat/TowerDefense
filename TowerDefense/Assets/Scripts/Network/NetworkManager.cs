@@ -35,6 +35,7 @@ public class NetworkManager : MonoBehaviour
     bool host = false;
     bool connected = false;
     bool updateUI = false;
+    bool clientReady = false;
     int roomConnectionID = -1;
 
     public async Task Start()
@@ -135,6 +136,14 @@ public class NetworkManager : MonoBehaviour
             }
         }).Wait();
     }
+    public void StartSignal()
+    {
+        if (host)
+        {
+            Debug.Log("starting game");
+            proxy.Invoke("startGame", "start", roomConnectionID);
+        }
+    }
     public void CreateRoom(string roomName)
     {
         roomConnectionID = proxy.Invoke<int>("createRoom", roomName, clientID).Result;
@@ -171,6 +180,11 @@ public class NetworkManager : MonoBehaviour
     {
         string info = proxy.Invoke<string>("getRoomInfo", roomConnectionID).Result;
         return info;
+    }
+    //Sets if client is ready or not
+    public void SetClientState(bool state)
+    {
+        clientReady = state;
     }
     public void SendCommand()
     {
@@ -241,6 +255,9 @@ public class NetworkManager : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        hubConnection.Stop();
+        if (hubConnection != null)
+        {
+            hubConnection.Stop();
+        }
     }
 }

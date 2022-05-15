@@ -29,6 +29,10 @@ public class LobbyMenuMangaer : MonoBehaviour
         }
         instance = this;
     }
+    public void StartGame()
+    {
+        NetworkManager.instance.StartSignal();
+    }
     public void OpenHostWindow()
     {
         RoomsList.SetActive(false);

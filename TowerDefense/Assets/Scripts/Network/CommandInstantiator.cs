@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // commands templates
+// start - command received to load a level to start the game
+// readyToStart - sent to host to confirm that guest player is ready to start the game (this may not be used)
 // build;{(int)turretID};{(int)nodeID} - to build a given turret on a given node id
 // sell;{(int)nodeID} - to sell a turret from a given node
 // wave;{(int)waveID} - to lauch a specified wave
@@ -22,12 +24,14 @@ public class CommandInstantiator : MonoBehaviour
     {
         foreach (string command in commandsToRun)
         {
-            Debug.Log("processing commnand " + command);
             string[] values = command.Split(';');
-            Debug.Log(values[0]);
             if (values[0] == "build")
             {
 
+            }
+            else if (values[0] == "start")
+            {
+                LevelLoading.instance.LoadLevel(2);
             }
             else if (values[0] == "sell")
             {
