@@ -29,6 +29,9 @@ public class NetworkManager : MonoBehaviour
     public TMP_InputField nameInput;
     public TMP_InputField message;
 
+    [HideInInspector]
+    public string playerName;
+
     bool host = false;
     bool connected = false;
     bool updateUI = false;
@@ -109,6 +112,7 @@ public class NetworkManager : MonoBehaviour
         {
             return;
         }
+        playerName = nickname.text;
         clientID = proxy.Invoke<int>("userConnected", nickname.text).Result;
         proxy.On<string>("receiveMessage", (message) => updateMessageField(message));
 
@@ -135,14 +139,22 @@ public class NetworkManager : MonoBehaviour
     {
         roomConnectionID = proxy.Invoke<int>("createRoom", roomName, clientID).Result;
         host = true;
+        LobbyMenuMangaer.instance.OpenRoom(String.Format(playerName + ';' + "null"));
     }
-    public void ConnectToRoom(string roomID)
+    public void ConnectToRoom(int roomID)
     {
+        roomConnectionID = roomID;
         host = false;
+        string roomInfo = proxy.Invoke<string>("connectToRoom", clientID, roomID).Result;
+        LobbyMenuMangaer.instance.OpenRoom(roomInfo);
     }
     public void DisconnectFromRoom()
     {
         LobbyMenuMangaer.instance.OpenRoomsList();
+        if (host)
+        {
+            DeleteRoom();
+        }
         roomConnectionID = -1;
     }
     public void DeleteRoom()
@@ -152,12 +164,13 @@ public class NetworkManager : MonoBehaviour
             Debug.LogError("Error occured when this was called, as there either wasnt changed in identification of connected room, or this was called in wrong conditions");
             return;
         }
-        if (host)
-        {
-            host = false;
-            proxy.Invoke("deleteRoom", roomConnectionID);
-            DisconnectFromRoom();
-        }
+        host = false;
+        proxy.Invoke("deleteRoom", roomConnectionID);
+    }
+    public string GetRoomInfo()
+    {
+        string info = proxy.Invoke<string>("getRoomInfo", roomConnectionID).Result;
+        return info;
     }
     public void SendCommand()
     {

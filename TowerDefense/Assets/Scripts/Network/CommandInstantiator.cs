@@ -7,11 +7,12 @@ using UnityEngine;
 // sell;{(int)nodeID} - to sell a turret from a given node
 // wave;{(int)waveID} - to lauch a specified wave
 // extra;{(int)groupID} - to send an extra wave of enemies for a player receing this command (this may not be implemented)
+// roomUpdate;{hostName};{guestName} - receive an update about room
 
 public class CommandInstantiator : MonoBehaviour
 {
     public static CommandInstantiator instance;
-    List<string> commandsToRun = new List<string>();
+    static List<string> commandsToRun = new List<string>();
 
     private void Awake()
     {
@@ -21,27 +22,51 @@ public class CommandInstantiator : MonoBehaviour
     {
         foreach (string command in commandsToRun)
         {
-            string[] Values = command.Split(';');
-            switch (Values[0])
+            Debug.Log("processing commnand " + command);
+            string[] values = command.Split(';');
+            Debug.Log(values[0]);
+            if (values[0] == "build")
             {
-                case "build":
 
-                    break;
-                case "sell":
-
-                    break;
-                case "wave":
-
-                    break;
-                default:
-                    Debug.LogError("received incorect or unknown command");
-                    break;
             }
+            else if (values[0] == "sell")
+            {
+
+            }
+            else if (values[0] == "wave")
+            {
+
+            }
+            else if (values[0] == "roomUpdate")
+            {
+                Debug.Log("updating room info");
+                LobbyMenuMangaer.instance.OpenRoom($"{values[1]};{values[2]}");
+            }
+            //switch (Values[0])
+            //{
+            //    case "build":
+
+            //        break;
+            //    case "sell":
+
+            //        break;
+            //    case "wave":
+
+            //        break;
+            //    case "roomUpdate":
+            //        Debug.Log("updating room info");
+            //        LobbyMenuMangaer.instance.OpenRoom($"{Values[1]};{Values[2]}");
+            //        break;
+            //    default:
+            //        Debug.LogError("received incorect or unknown command");
+            //        break;
+            //}
         }
         commandsToRun.Clear();
     }
     public void AddCommandToList(string comm)
     {
+        Debug.Log("received commnand " + comm);
         commandsToRun.Add(comm);
     }
 }

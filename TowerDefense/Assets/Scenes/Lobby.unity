@@ -427,7 +427,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0032489356}
+  m_AnchoredPosition: {x: 0, y: 0.00003936653}
   m_SizeDelta: {x: 0, y: 417.17}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &23520611
@@ -762,6 +762,9 @@ MonoBehaviour:
   RoomsList: {fileID: 1935816665}
   RoomCreation: {fileID: 1491236074}
   Room: {fileID: 1711527783}
+  roomNameField: {fileID: 206092722}
+  roomHostName: {fileID: 674740344}
+  roomClientName: {fileID: 1582327171}
 --- !u!1 &184189882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1482,8 +1485,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2045447105}
   m_HandleRect: {fileID: 2045447104}
   m_Direction: 2
-  m_Value: -0.21839081
-  m_Size: 0.9999936
+  m_Value: 0
+  m_Size: 0.9999979
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2792,7 +2795,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1491236075
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3498,7 +3501,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 179204825}
         m_TargetAssemblyTypeName: LobbyMenuMangaer, Assembly-CSharp
-        m_MethodName: OpenRoom
+        m_MethodName: CreateRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

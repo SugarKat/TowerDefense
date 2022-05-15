@@ -15,6 +15,8 @@ public class LobbyMenuMangaer : MonoBehaviour
     public GameObject RoomCreation;
     public GameObject Room;
     public TMP_InputField roomNameField;
+    public TextMeshProUGUI roomHostName;
+    public TextMeshProUGUI roomClientName;
 
     public static LobbyMenuMangaer instance;
 
@@ -39,15 +41,31 @@ public class LobbyMenuMangaer : MonoBehaviour
         RoomCreation.SetActive(false);
         Room.SetActive(false);
     }
-    public void OpenRoom()
+    public void OpenRoom(string roomInfo)
     {
+        string[] Values = roomInfo.Split(';');
+        roomHostName.text = Values[0];
+        if (Values[1] == "null")
+        {
+            roomClientName.text = "";
+        }
+        else
+        {
+            roomClientName.text = Values[1];
+        }
+
         RoomsList.SetActive(false);
         RoomCreation.SetActive(false);
         Room.SetActive(true);
     }
+    public void ConnectToRoom()
+    {
+        string roomInfo = NetworkManager.instance.GetRoomInfo();
+        OpenRoom(roomInfo);
+    }
     public void CreateRoom()
     {
-
+        NetworkManager.instance.CreateRoom(roomNameField.text);
     }
     public void RefreshList()
     {
