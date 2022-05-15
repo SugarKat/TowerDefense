@@ -5,7 +5,7 @@ using UnityEngine;
 // commands templates
 // start - command received to load a level to start the game
 // readyToStart - sent to host to confirm that guest player is ready to start the game (this may not be used)
-// build;{(int)turretID};{(int)nodeID} - to build a given turret on a given node id
+// build;{(int)turretID};{(int)xPos;{(int)yPos} - to build a given turret on a given node id
 // sell;{(int)nodeID} - to sell a turret from a given node
 // wave;{(int)waveID} - to lauch a specified wave
 // extra;{(int)groupID} - to send an extra wave of enemies for a player receing this command (this may not be implemented)
@@ -27,7 +27,10 @@ public class CommandInstantiator : MonoBehaviour
             string[] values = command.Split(';');
             if (values[0] == "build")
             {
-
+                int buildingID = int.Parse(values[1]);
+                float xPos = float.Parse(values[2]);
+                float yPos = float.Parse(values[3]);
+                BuildingManager.Instance.BuildNT(buildingID, xPos, yPos);
             }
             else if (values[0] == "start")
             {
@@ -39,7 +42,7 @@ public class CommandInstantiator : MonoBehaviour
             }
             else if (values[0] == "wave")
             {
-
+                WaveSpawner.instance.StartNextWaveNT(int.Parse(values[1]));
             }
             else if (values[0] == "roomUpdate")
             {
@@ -70,7 +73,6 @@ public class CommandInstantiator : MonoBehaviour
     }
     public void AddCommandToList(string comm)
     {
-        Debug.Log("received commnand " + comm);
         commandsToRun.Add(comm);
     }
 }

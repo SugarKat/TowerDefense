@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public Animation towerPanel;
     public GameObject closeButton;
     public GameObject openButton;
+    public GameObject waveButton;
     private string errorText = "";
 
     public static UIManager Instance { get; private set; }
@@ -28,6 +29,13 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         UpdateUI();
+        if (NetworkManager.instance != null)
+        {
+            if (!NetworkManager.instance.host && NetworkManager.instance.connected)
+            {
+                waveButton.SetActive(false);
+            }
+        }
     }
 
     public void UpdateLives()
@@ -41,12 +49,12 @@ public class UIManager : MonoBehaviour
 
     public void UpdateEnemiesLeft()
     {
-        enemyTxt.text = $"Enemies Left: {WaveSpawner.instance.AliveEnemies}";        
+        enemyTxt.text = $"Enemies Left: {WaveSpawner.instance.AliveEnemies}";
     }
 
     public void UpdateRoundNR()
     {
-        if(WaveSpawner.instance.GetRound < 0)
+        if (WaveSpawner.instance.GetRound < 0)
         {
             roundTxt.text = $"Game Not Started";
         }
@@ -73,9 +81,9 @@ public class UIManager : MonoBehaviour
         InvokeRepeating("EditMessage", 0f, 2f);
     }
 
-    public void EditMessage() 
-    { 
-        if(errorTxt.text == errorText)
+    public void EditMessage()
+    {
+        if (errorTxt.text == errorText)
         {
             errorTxt.text = "";
             CancelInvoke();

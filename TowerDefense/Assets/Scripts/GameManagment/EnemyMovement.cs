@@ -19,7 +19,7 @@ public class EnemyMovement : MonoBehaviour
     {
         // Get next waypoint
 
-        target = Waypoints.instance.GetNextWaypoint(currentWaypoint++);
+        target = WaveSpawner.instance.GetNextWaypoint(currentWaypoint++);
 
         transform.LookAt(target);
     }
@@ -45,7 +45,7 @@ public class EnemyMovement : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
             if (Vector3.Distance(transform.position, target.position) < radius)
             {
-                target = Waypoints.instance.GetNextWaypoint(currentWaypoint);
+                target = WaveSpawner.instance.GetNextWaypoint(currentWaypoint);
 
                 currentWaypoint++;
             }

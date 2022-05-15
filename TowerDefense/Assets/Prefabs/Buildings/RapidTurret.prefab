@@ -106,7 +106,7 @@ MonoBehaviour:
   rotationPoint: {fileID: 5460978873422153481}
   firePoint: {fileID: 3117913394041052709}
   fireRate: 2
-  range: 2
+  range: 3.5
 --- !u!1 &3824239801791052128
 GameObject:
   m_ObjectHideFlags: 0

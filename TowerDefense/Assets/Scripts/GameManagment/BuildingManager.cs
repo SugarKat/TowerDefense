@@ -7,6 +7,7 @@ public class BuildingManager : MonoBehaviour
     public BuildingsLibrary availableBuildings;
 
     private Building selectedBuilding;
+    private int selectedBuildingIndex;
 
     public List<GameObject> placedBuildings;
 
@@ -34,6 +35,7 @@ public class BuildingManager : MonoBehaviour
         }
         if (PlayerStats.Instance.HasEnoughMoney(selectedBuilding.price))
         {
+            NetworkManager.instance.BuildSignal(selectedBuildingIndex, tile.transform.position.x, tile.transform.position.z);
             PlayerStats.Instance.currentMoney -= selectedBuilding.price;
             UIManager.Instance.UpdateUI();
             tile.buildingInfo = selectedBuilding;
@@ -44,7 +46,11 @@ public class BuildingManager : MonoBehaviour
             UIManager.Instance.ShowMessage("Not Enough Money!");
         }
     }
-
+    public void BuildNT(int bID, float xPos, float yPos)
+    {
+        Building building = availableBuildings.buildings[bID];
+        Instantiate(building.model, new Vector3(xPos, 0f, yPos), Quaternion.identity);
+    }
     public void AddToList(GameObject obj)
     {
         placedBuildings.Add(obj);
@@ -72,8 +78,9 @@ public class BuildingManager : MonoBehaviour
 
 
     public void SelectBuilding(Building selection)
-    {        
+    {
         selectedBuilding = selection;
+        selectedBuildingIndex = availableBuildings.GetBuildingID(selection);
         UIManager.Instance.ShowMessage("Selected " + selectedBuilding.name);
     }
 }

@@ -6,7 +6,7 @@ public class Waypoints : MonoBehaviour
 {
     public bool showGizmos = false;
 
-    public static Waypoints instance;
+    //public static Waypoints instance;
 
     public Transform[] waypoints;
 
@@ -14,7 +14,7 @@ public class Waypoints : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        //instance = this;
     }
     private void Start()
     {

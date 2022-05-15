@@ -1865,6 +1865,10 @@ GameObject:
   - component: {fileID: 669335229}
   - component: {fileID: 669335228}
   - component: {fileID: 669335227}
+  - component: {fileID: 669335234}
+  - component: {fileID: 669335233}
+  - component: {fileID: 669335232}
+  - component: {fileID: 669335231}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1960,6 +1964,72 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &669335231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669335226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afed4fda167b0f8429d1650f97280c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPoint: {fileID: 1224523174}
+  wavesInfo: {fileID: 11400000, guid: 022425b66d3dfb343b63a1a329af31cb, type: 2}
+  spawnedEntities: []
+--- !u!114 &669335232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669335226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4a2950ac0522343aa2fe1810e18474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingMoney: 200
+  startingHealth: 100
+  currentMoney: 0
+  currentHealth: 0
+--- !u!114 &669335233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669335226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22206bd0ccd7edb4380845a441c71361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableBuildings: {fileID: 11400000, guid: 61261797c153acc4abc9abc017d104ad, type: 2}
+  placedBuildings: []
+  sellMode: 0
+--- !u!114 &669335234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669335226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f980e8020772714ab685fedec414846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  livesTxt: {fileID: 1395227335}
+  moneyTxt: {fileID: 237244445}
+  roundTxt: {fileID: 435350474}
+  enemyTxt: {fileID: 1318962037}
+  errorTxt: {fileID: 537490535}
+  towerPanel: {fileID: 1538575374}
+  closeButton: {fileID: 1229518575}
+  openButton: {fileID: 1447296724}
 --- !u!1 &697689718
 GameObject:
   m_ObjectHideFlags: 0
@@ -2392,6 +2462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPoint: {fileID: 1224523174}
   wavesInfo: {fileID: 11400000, guid: 022425b66d3dfb343b63a1a329af31cb, type: 2}
+  spawnedEntities: []
 --- !u!1 &1076742760
 GameObject:
   m_ObjectHideFlags: 0

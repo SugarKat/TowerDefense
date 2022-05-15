@@ -32,8 +32,8 @@ public class NetworkManager : MonoBehaviour
     [HideInInspector]
     public string playerName;
 
-    bool host = false;
-    bool connected = false;
+    public bool host { get; private set; }
+    public bool connected { get; private set; }
     bool updateUI = false;
     bool clientReady = false;
     int roomConnectionID = -1;
@@ -42,7 +42,7 @@ public class NetworkManager : MonoBehaviour
     {
         connector = new ServerConnector();
         OnMessageReceive += updateMessageField;
-
+        host = false;
         //await connector.InitAsync();
         //SendButton.onClick.AddListener(SendMessage);
     }
@@ -144,6 +144,19 @@ public class NetworkManager : MonoBehaviour
             proxy.Invoke("startGame", "start", roomConnectionID);
         }
     }
+    public void NextWaveSignal(int waveID)
+    {
+        if (host)
+        {
+            string comm = $"wave;{waveID}";
+            proxy.Invoke("command", comm, roomConnectionID);
+        }
+    }
+    public void BuildSignal(int buildingID, float xPos, float yPos)
+    {
+        string comm = $"build;{buildingID};{xPos};{yPos}";
+        proxy.Invoke("command", comm, roomConnectionID);
+    }
     public void CreateRoom(string roomName)
     {
         roomConnectionID = proxy.Invoke<int>("createRoom", roomName, clientID).Result;
@@ -238,7 +251,6 @@ public class NetworkManager : MonoBehaviour
     {
         if (!connected)
             return;
-        Debug.Log(message);
         CommandInstantiator.instance.AddCommandToList(message);
     }
     public string RefreshRoomsList()
