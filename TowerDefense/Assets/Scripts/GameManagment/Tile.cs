@@ -6,6 +6,8 @@ public class Tile : MonoBehaviour
 {
     public bool canBuild;
     public GameObject building;
+    public Building buildingInfo;
+    private bool occupied = false;
 
     private Color baseColor;
     private Renderer ren;
@@ -36,9 +38,27 @@ public class Tile : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (canBuild)
+        if (BuildingManager.Instance.sellMode == true && building != null)
+        {
+            SellBuilding();
+            Debug.Log("Sold tile " + this);
+            occupied = false;
+            return;
+        }
+        if(BuildingManager.Instance.sellMode == true && !occupied)
+        {
+            UIManager.Instance.ShowMessage("Tile has no building to sell.");
+            return;
+        }
+        if (canBuild && !occupied)
         {
             BuildingManager.Instance.Build(this);
+            occupied = true;
+            return;
+        }
+        else if (occupied)
+        {
+            UIManager.Instance.ShowMessage("Tile is occupied by another building.");
         }
         else
         {
@@ -57,4 +77,15 @@ public class Tile : MonoBehaviour
             BuildingManager.Instance.AddToList(building);
         }
     }
+
+    public void SellBuilding()
+    {
+        PlayerStats.Instance.currentMoney += buildingInfo.sellValue;
+        buildingInfo = null;
+        Destroy(building);
+        building = null;
+        UIManager.Instance.UpdateUI();
+    }
+
+
 }

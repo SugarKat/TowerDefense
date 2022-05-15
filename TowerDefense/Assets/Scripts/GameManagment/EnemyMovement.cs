@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public float moveSpeed = 1f;
 
-    [SerializeField] public Waypoints waypoints;
+    public float radius = 0.4f;
 
-    [SerializeField] public float moveSpeed = 1f;
-
-    [SerializeField] public float radius = 0.4f;
-
-    [SerializeField] public int money = 20;
+    public int money = 20;
 
     public float health = 100;
     private int currentWaypoint = 0;
@@ -21,14 +18,16 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         // Get next waypoint
+
         target = Waypoints.instance.GetNextWaypoint(currentWaypoint++);
+
         transform.LookAt(target);
     }
 
     public void TakeDamage(float dmg)
     {
         health = health - dmg;
-        if(health < 0)
+        if (health < 0)
         {
             Kill();
         }
@@ -61,7 +60,6 @@ public class EnemyMovement : MonoBehaviour
     {
         WaveSpawner.instance.RemoveEnemy(this.gameObject);
         PlayerStats.Instance.AddMoney(money);
-        //RoundManager.Instance.EnemyDespawned();
         Destroy(this.gameObject);
     }
 
@@ -69,7 +67,7 @@ public class EnemyMovement : MonoBehaviour
     {
         WaveSpawner.instance.RemoveEnemy(this.gameObject);
         PlayerStats.Instance.TakeDamage(1);
-        //RoundManager.Instance.EnemyDespawned();
+
         Destroy(this.gameObject);
     }
 

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Rapid Fire Turret
   price: 100
-  sellValue: 0
+  sellValue: 50
   model: {fileID: 3503048573740049639, guid: b75eadfa4480e054d841097c0c253f0b, type: 3}

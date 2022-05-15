@@ -37,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy(int enemyID)
     {
-        enemyList[enemyID].GetComponent<EnemyMovement>().waypoints = waypoints;
+        //enemyList[enemyID].GetComponent<EnemyMovement>().waypoints = waypoints;
         GameObject spawned = GameObject.Instantiate(enemyList[enemyID], waypoints.waypoints[0].transform);
         spawnedEntities.Add(spawned);
     }

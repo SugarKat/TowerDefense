@@ -30,7 +30,7 @@ public class Turret : MonoBehaviour
         float shortestDistance = Mathf.Infinity;
         GameObject closestEnemy = null;
 
-        foreach(GameObject enemy in EnemySpawner.Instance.spawnedEntities)
+        foreach(GameObject enemy in WaveSpawner.instance.spawnedEntities)
         {
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
             if(distance < shortestDistance)

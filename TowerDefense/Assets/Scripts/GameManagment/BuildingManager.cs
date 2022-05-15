@@ -27,11 +27,6 @@ public class BuildingManager : MonoBehaviour
     }
     public void Build(Tile tile)
     {
-        if (sellMode)
-        {
-            DestroyClosestBuilding(tile);
-            return;
-        }
         if (selectedBuilding == null)
         {
             UIManager.Instance.ShowMessage("No Building Selected!");
@@ -41,6 +36,7 @@ public class BuildingManager : MonoBehaviour
         {
             PlayerStats.Instance.currentMoney -= selectedBuilding.price;
             UIManager.Instance.UpdateUI();
+            tile.buildingInfo = selectedBuilding;
             tile.InstantiateBuilding(selectedBuilding);
         }
         else
@@ -59,24 +55,6 @@ public class BuildingManager : MonoBehaviour
         placedBuildings.Remove(obj);
     }
 
-    public void DestroyClosestBuilding(Tile tile)
-    {
-        GameObject closest = null;
-        float distance = Mathf.Infinity;
-        foreach(GameObject obj in placedBuildings)
-        {
-            if(Vector3.Distance(tile.gameObject.transform.position, obj.transform.position) < distance)
-            {
-                closest = obj;
-                distance = Vector3.Distance(tile.gameObject.transform.position, obj.transform.position);
-            }
-        }
-        if(closest != null)
-        {
-            RemoveFromList(closest);
-            Destroy(closest);
-        }
-    }
 
     public void ChangeSellMode()
     {
@@ -93,15 +71,9 @@ public class BuildingManager : MonoBehaviour
     }
 
 
-    public void SelectBuilding(int id)
-    {
-        if (id >= availableBuildings.buildings.Length)
-        {
-            UIManager.Instance.ShowMessage("No Building Selected!");
-            selectedBuilding = null;
-            return;
-        }
-        selectedBuilding = availableBuildings.buildings[id];
+    public void SelectBuilding(Building selection)
+    {        
+        selectedBuilding = selection;
         UIManager.Instance.ShowMessage("Selected " + selectedBuilding.name);
     }
 }

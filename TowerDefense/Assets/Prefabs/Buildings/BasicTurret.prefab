@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 178865446265892465}
   - component: {fileID: 7978078479863595158}
   m_Layer: 0
-  m_Name: SingleBarrelTurret
+  m_Name: BasicTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

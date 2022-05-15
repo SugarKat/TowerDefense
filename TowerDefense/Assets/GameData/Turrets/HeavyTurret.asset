@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3bfe4f91d6884d4ea3a5ec6020b7cd1, type: 3}
-  m_Name: A2
+  m_Script: {fileID: 11500000, guid: 4afba7922f39a8f43af9231f756eb9b8, type: 3}
+  m_Name: HeavyTurret
   m_EditorClassIdentifier: 
-  roundNR: 1
-  enemyCount: 8
-  enemyIDs: 0000000000000000000000000000000000000000000000000100000001000000
+  name: Heavy Turret
+  price: 200
+  sellValue: 100
+  model: {fileID: 3996513675102766174, guid: e68d30fab700e5a45b24082f48671dda, type: 3}

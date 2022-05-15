@@ -12,6 +12,7 @@ public class WaveSpawner : MonoBehaviour
 
     private int waveN = 0;
     private bool waveSpawning = false;
+
     public List<GameObject> spawnedEntities = new List<GameObject>(); 
 
     public int AliveEnemies { get { return spawnedEntities.Count; } }
@@ -55,7 +56,9 @@ public class WaveSpawner : MonoBehaviour
                     break;
                 }
                 spawnedEntities.Add(Instantiate(wavesInfo.waves[waveN].groups[i].enemies[groupEnemyID], startPoint.position, startPoint.rotation));
+
                 //UIManager.Instance.UpdateUI();
+
                 groupEnemyID++;
                 if (groupEnemyID >= wavesInfo.waves[waveN].groups[i].enemies.Length)
                 {
@@ -72,6 +75,8 @@ public class WaveSpawner : MonoBehaviour
     public void RemoveEnemy(GameObject obj)
     {
         spawnedEntities.Remove(obj);
+
         //UIManager.Instance.UpdateUI();
+
     }
 }
